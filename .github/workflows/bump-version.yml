@@ -1,4 +1,4 @@
-name: Manual major/minor version bump and build
+name: Manual version bump and build
 
 on:
   # push:
