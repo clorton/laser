@@ -80,11 +80,11 @@ jobs:
         run: python -m build
 
       # skip tests for the time being
-      # - name: Run tests
-      #   run: |
-      #     pip install dist/*.whl
-      #     pip install scipy pytest pytest-cov
-      #     pytest
+      - name: Run tests
+        run: |
+          pip install dist/*.whl
+          pip install scipy pytest pytest-cov
+          pytest
 
   bump:
     name: Bump Version
@@ -115,11 +115,11 @@ jobs:
           pip install bump-my-version
 
       - name: Bump Version
+        # ${{ github.event.inputs.version_type }}
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           bump-my-version bump patch
-          # bump-my-version bump ${{ github.event.inputs.version_type }}
 
       - name: Push changes and tag
         env:
