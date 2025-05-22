@@ -1,12 +1,12 @@
 name: Full Build Matrix
 
 on:
+  workflow_dispatch:
+    branches: [main, bump-version]
   # push:
   #   branches: [main, bump-version]
   # pull_request:
   #   branches: [main]
-  workflow_dispatch:
-    branches: [main, bump-version]
 
 jobs:
   build:
