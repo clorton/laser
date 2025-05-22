@@ -128,17 +128,17 @@ jobs:
           git push origin HEAD:main
           git push origin v$(bump-my-version show current_version)
 
-  # release:
-  #   name: Create New release
-  #   needs: bump
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Create release
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: |
-  #         tag_name=v$(bump-my-version show current_version)
-  #         gh release create "$tag_name" dist/* --title "$tag_name" --notes "Automated release for $tag_name" || \
+  release:
+    name: Create New release
+    needs: bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag_name=v$(bump-my-version show current_version)
+          gh release create "$tag_name" dist/* --title "$tag_name" --notes "Automated release for $tag_name" || \
 
   # build:
   #   name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
