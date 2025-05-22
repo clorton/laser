@@ -1,29 +1,29 @@
 name: Manual version bump and build
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - bump-version
-  workflow_dispatch:
-    inputs:
-      version_type:
-        description: 'Type of version bump (major, minor, patch):'
-        required: true
-        default: 'patch'
+  push:
+    branches:
+      - main
+      - bump-version
+  # workflow_dispatch:
+  #   inputs:
+  #     version_type:
+  #       description: 'Type of version bump (major, minor, patch):'
+  #       required: true
+  #       default: 'patch'
 
 jobs:
-  approve:
-    name: Approve version bump
-    environment: restricted
-    runs-on: ubuntu-latest
-    steps:
-      - name: Request approval
-        run: echo "Requesting approval for version bump"
+  # approve:
+  #   name: Approve version bump
+  #   environment: restricted
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Request approval
+  #       run: echo "Requesting approval for version bump"
 
   test:
     name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
-    needs: approve
+    # needs: approve
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -118,7 +118,8 @@ jobs:
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          bump-my-version bump ${{ github.event.inputs.version_type }}
+          bump-my-version bump patch
+          # bump-my-version bump ${{ github.event.inputs.version_type }}
 
       - name: Push changes and tag
         env:
