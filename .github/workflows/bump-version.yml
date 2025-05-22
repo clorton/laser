@@ -126,6 +126,7 @@ jobs:
   release:
     name: Create New release
     needs: bump
+    runs-on: ubuntu-latest
     steps:
       -name: Create release
         env:
