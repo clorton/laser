@@ -128,7 +128,7 @@ jobs:
     needs: bump
     runs-on: ubuntu-latest
     steps:
-      -name: Create release
+      - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
