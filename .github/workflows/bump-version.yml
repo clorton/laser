@@ -17,197 +17,197 @@ jobs:
       - name: Request approval
         run: echo "Requesting approval for version bump"
 
-  test:
-    name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
-    needs: approve
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-        architecture: [x64]
-        include:
-          # Add arm64 for macOS
-          - os: macos-latest
-            python-version: "3.9"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.10"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.11"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.12"
-            architecture: arm64
-          # Add x64 for macOS
-          - os: 'macos-13'
-            python-version: "3.9"
-            architecture: x64
-          - os: 'macos-13'
-            python-version: "3.10"
-            architecture: x64
-          - os: macos-latest
-            python-version: "3.11"
-            architecture: x64
-          - os: macos-latest
-            python-version: "3.12"
-            architecture: x64
+  # test:
+  #   name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
+  #   needs: approve
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest]
+  #       python-version: ["3.9", "3.10", "3.11", "3.12"]
+  #       architecture: [x64]
+  #       include:
+  #         # Add arm64 for macOS
+  #         - os: macos-latest
+  #           python-version: "3.9"
+  #           architecture: arm64
+  #         - os: macos-latest
+  #           python-version: "3.10"
+  #           architecture: arm64
+  #         - os: macos-latest
+  #           python-version: "3.11"
+  #           architecture: arm64
+  #         - os: macos-latest
+  #           python-version: "3.12"
+  #           architecture: arm64
+  #         # Add x64 for macOS
+  #         - os: 'macos-13'
+  #           python-version: "3.9"
+  #           architecture: x64
+  #         - os: 'macos-13'
+  #           python-version: "3.10"
+  #           architecture: x64
+  #         - os: macos-latest
+  #           python-version: "3.11"
+  #           architecture: x64
+  #         - os: macos-latest
+  #           python-version: "3.12"
+  #           architecture: x64
 
-    steps:
-      - name: Checkout Code
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout Code
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: ${{ matrix.architecture }}
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #         architecture: ${{ matrix.architecture }}
 
-      - name: Install build dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build
+  #     - name: Install build dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install build
 
-      - name: Build package
-        run: python -m build
+  #     - name: Build package
+  #       run: python -m build
 
-      # skip tests for the time being
-      # - name: Run tests
-      #   run: |
-      #     pip install dist/*.whl
-      #     pip install scipy pytest pytest-cov
-      #     pytest
+  #     # skip tests for the time being
+  #     # - name: Run tests
+  #     #   run: |
+  #     #     pip install dist/*.whl
+  #     #     pip install scipy pytest pytest-cov
+  #     #     pytest
 
-  bump:
-    name: Bump Version
-    permissions:
-      contents: write
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+  # bump:
+  #   name: Bump Version
+  #   permissions:
+  #     contents: write
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
 
-    steps:
-      - name: Show Inputs
-        run: |
-          echo "Version type: ${{ github.event.inputs.version_type }}"
+  #   steps:
+  #     - name: Show Inputs
+  #       run: |
+  #         echo "Version type: ${{ github.event.inputs.version_type }}"
 
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-            fetch-depth: 0
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v4
+  #       with:
+  #           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.12'
 
-      - name: Install bump-my-version
-        run: |
-          python -m pip install --upgrade pip
-          pip install bump-my-version
+  #     - name: Install bump-my-version
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install bump-my-version
 
-      - name: Bump Version
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          bump-my-version bump ${{ github.event.inputs.version_type }}
+  #     - name: Bump Version
+  #       run: |
+  #         git config user.name "${{ github.actor }}"
+  #         git config user.email "${{ github.actor }}@users.noreply.github.com"
+  #         bump-my-version bump ${{ github.event.inputs.version_type }}
 
-      - name: Push changes and tag
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git push origin HEAD:main
-          git push origin v$(bump-my-version show current_version)
+  #     - name: Push changes and tag
+  #       env:
+  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         git push origin HEAD:main
+  #         git push origin v$(bump-my-version show current_version)
 
-  release:
-    name: Create New release
-    needs: bump
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          tag_name=v$(bump-my-version show current_version)
-          gh release create "$tag_name" dist/* --title "$tag_name" --notes "Automated release for $tag_name" || \
+  # release:
+  #   name: Create New release
+  #   needs: bump
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Create release
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         tag_name=v$(bump-my-version show current_version)
+  #         gh release create "$tag_name" dist/* --title "$tag_name" --notes "Automated release for $tag_name" || \
 
-  build:
-    name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
-    needs: release
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-        architecture: [x64]
-        include:
-          # Add arm64 for macOS
-          - os: macos-latest
-            python-version: "3.9"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.10"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.11"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.12"
-            architecture: arm64
-          # Add x64 for macOS
-          - os: 'macos-13'
-            python-version: "3.9"
-            architecture: x64
-          - os: 'macos-13'
-            python-version: "3.10"
-            architecture: x64
-          - os: macos-latest
-            python-version: "3.11"
-            architecture: x64
-          - os: macos-latest
-            python-version: "3.12"
-            architecture: x64
+  # build:
+  #   name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
+  #   needs: release
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest]
+  #       python-version: ["3.9", "3.10", "3.11", "3.12"]
+  #       architecture: [x64]
+  #       include:
+  #         # Add arm64 for macOS
+  #         - os: macos-latest
+  #           python-version: "3.9"
+  #           architecture: arm64
+  #         - os: macos-latest
+  #           python-version: "3.10"
+  #           architecture: arm64
+  #         - os: macos-latest
+  #           python-version: "3.11"
+  #           architecture: arm64
+  #         - os: macos-latest
+  #           python-version: "3.12"
+  #           architecture: arm64
+  #         # Add x64 for macOS
+  #         - os: 'macos-13'
+  #           python-version: "3.9"
+  #           architecture: x64
+  #         - os: 'macos-13'
+  #           python-version: "3.10"
+  #           architecture: x64
+  #         - os: macos-latest
+  #           python-version: "3.11"
+  #           architecture: x64
+  #         - os: macos-latest
+  #           python-version: "3.12"
+  #           architecture: x64
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: ${{ matrix.architecture }}
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #         architecture: ${{ matrix.architecture }}
 
-      - name: Install build dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build
+  #     - name: Install build dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install build
 
-      - name: Build package
-        run: python -m build
+  #     - name: Build package
+  #       run: python -m build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: laser-core-${{ matrix.os }}-py${{ matrix.python-version }}-${{ matrix.architecture }}
-          path: dist/*
+  #     - name: Upload build artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: laser-core-${{ matrix.os }}-py${{ matrix.python-version }}-${{ matrix.architecture }}
+  #         path: dist/*
 
-      - name: Upload artifacts to release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          tag_name=v$(bump-my-version show current_version)
-          gh release upload "$tag_name" dist/*
+  #     - name: Upload artifacts to release
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         tag_name=v$(bump-my-version show current_version)
+  #         gh release upload "$tag_name" dist/*
 
-      - name: Push to PyPI
-        env:
-            TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          pip install twine
-          python3 -m twine --verbose --upload dist/*
+  #     - name: Push to PyPI
+  #       env:
+  #           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+  #       run: |
+  #         pip install twine
+  #         python3 -m twine --verbose --upload dist/*
