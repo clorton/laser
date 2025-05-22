@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
+    name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -73,5 +73,5 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.os }}-py${{ matrix.python-version }}-${{ matrix.architecture }}
+          name: laser-core-${{ matrix.os }}-py${{ matrix.python-version }}-${{ matrix.architecture }}
           path: dist/*
