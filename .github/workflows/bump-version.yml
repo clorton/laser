@@ -46,6 +46,7 @@ jobs:
         env:
           CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_SKIP: "pp* *-musllinux_*"  # Skip PyPy and musl wheels if not needed
+          CIBW_TEST_REQUIRES: "pytest"
           CIBW_TEST_COMMAND: "pytest {project}"
 
       - name: Upload wheels as artifact
