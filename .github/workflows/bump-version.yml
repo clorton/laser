@@ -84,6 +84,8 @@ jobs:
     name: Bump Version
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -101,7 +103,10 @@ jobs:
       - name: Bump patch version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bump-my-version bump ${{ github.event.inputs.version_type }} --tag --commit
+        run: |
+          bump-my-version bump ${{ github.event.inputs.version_type }} --tag --commit
+          git push origin HEAD
+          git push origin --tags
 
   build:
     name: Build on (${{ matrix.os }})
@@ -160,8 +165,9 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Install GitHub CLI
-        uses: cli/cli-action@v2
+      # Assume GitHub CLI is already installed on the runner
+      # - name: Install GitHub CLI
+      #   uses: cli/cli-action@v2
 
       - name: Create GitHub Release with gh CLI
         run: |
