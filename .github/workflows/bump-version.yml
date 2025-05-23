@@ -151,7 +151,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag_name=v$(bump-my-version show current_version)
-          gh release create "$tag_name" dist/* --title "$tag_name" --notes "Automated release for $tag_name"
+          gh release create "$tag_name" --title "$tag_name" --notes "Automated release for $tag_name"
 
   # build:
   #   name: Test on ${{ matrix.os }} / py${{ matrix.python-version }} / ${{ matrix.architecture }}
