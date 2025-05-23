@@ -43,9 +43,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/laser-core/
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/InstituteforDiseaseModeling/laser/v0.4.9.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/InstituteforDiseaseModeling/laser/v0.4.10.svg
     :alt: Commits since latest release
-    :target: https://github.com/InstituteforDiseaseModeling/laser/compare/v0.4.9...main
+    :target: https://github.com/InstituteforDiseaseModeling/laser/compare/v0.4.10...main
 
 
 

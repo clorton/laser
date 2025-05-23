@@ -14,7 +14,7 @@
 ![implementation](https://img.shields.io/pypi/implementation/laser-core.svg)
 ![license](https://img.shields.io/pypi/l/laser-core.svg)
 
-![commits since v0.4.9](https://img.shields.io/github/commits-since/InstituteforDiseaseModeling/laser/v0.4.9.svg)
+![commits since v0.4.10](https://img.shields.io/github/commits-since/InstituteforDiseaseModeling/laser/v0.4.10.svg)
 
 ## Getting Started
 
