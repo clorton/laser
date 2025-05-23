@@ -1,16 +1,16 @@
 name: Manual version bump and build
 
 on:
-  push:
-    branches:
-      - main
-      - bump-version
-  # workflow_dispatch:
-  #   inputs:
-  #     version_type:
-  #       description: 'Type of version bump (major, minor, patch):'
-  #       required: true
-  #       default: 'patch'
+  # push:
+  #   branches:
+  #     - main
+  #     - bump-version
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Type of version bump (major, minor, patch):'
+        required: true
+        default: 'patch'
 
 jobs:
   # approve:
@@ -79,7 +79,6 @@ jobs:
       - name: Build package
         run: python -m build
 
-      # skip tests for the time being
       - name: Run tests
         run: |
           python -m pip install $(python -c "import glob; print(glob.glob('dist/*.whl')[0])")
@@ -115,11 +114,10 @@ jobs:
           pip install bump-my-version
 
       - name: Bump Version
-        # ${{ github.event.inputs.version_type }}
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          bump-my-version bump patch
+          bump-my-version bump ${{ github.event.inputs.version_type }}
 
       - name: Push changes and tag
         env:
