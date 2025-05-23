@@ -220,6 +220,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          pip install bump-my-version
           tag_name=v$(bump-my-version show current_version)
           gh release upload "$tag_name" $(python -c "import glob; print(glob.glob('dist/*.whl')[0])")
 
