@@ -102,7 +102,7 @@ jobs:
         run: bump-my-version bump ${{ github.event.inputs.version_type }} --tag --commit
 
   build:
-    name: Build & Test (${{ matrix.os }})
+    name: Build on (${{ matrix.os }})
     needs: version-bump
     runs-on: ${{ matrix.os }}
     strategy:
@@ -170,8 +170,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.8.8
+      # TODO - name: Publish to PyPI
+      # TODO   uses: pypa/gh-action-pypi-publish@v1.8.8
+      # TODO   with:
+      # TODO     password: ${{ secrets.PYPI_API_TOKEN }}
+      # TODO     packages_dir: final_dist
+
+      - name: Publish package distributions to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
+          password: ${{ secrets.PYPI_TEST_TOKEN }}
           packages_dir: final_dist
