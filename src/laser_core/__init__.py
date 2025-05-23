@@ -1,4 +1,4 @@
-__version__ = "0.4.2"
+__version__ = "0.4.3"
 
 from .extension import compiled
 from .laserframe import LaserFrame
