@@ -82,7 +82,7 @@ jobs:
       # skip tests for the time being
       - name: Run tests
         run: |
-          pip install dist/*.whl
+          python -m pip install $(python -c "import glob; print(glob.glob('dist/*.whl')[0])")
           pip install scipy pytest pytest-cov
           pytest
 
