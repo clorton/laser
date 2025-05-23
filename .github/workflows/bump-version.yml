@@ -26,32 +26,32 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.12"] # TODO ["3.9", "3.10", "3.11", "3.12"]
         architecture: [x64]
         include:
           # Add arm64 for macOS
-          - os: macos-latest
-            python-version: "3.9"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.10"
-            architecture: arm64
-          - os: macos-latest
-            python-version: "3.11"
-            architecture: arm64
+          # TODO - os: macos-latest
+          # TODO   python-version: "3.9"
+          # TODO   architecture: arm64
+          # TODO - os: macos-latest
+          # TODO   python-version: "3.10"
+          # TODO   architecture: arm64
+          # TODO - os: macos-latest
+          # TODO   python-version: "3.11"
+          # TODO   architecture: arm64
           - os: macos-latest
             python-version: "3.12"
             architecture: arm64
           # Add x64 for macOS
-          - os: 'macos-13'
-            python-version: "3.9"
-            architecture: x64
-          - os: 'macos-13'
-            python-version: "3.10"
-            architecture: x64
-          - os: macos-latest
-            python-version: "3.11"
-            architecture: x64
+          # TODO - os: 'macos-13'
+          # TODO   python-version: "3.9"
+          # TODO   architecture: x64
+          # TODO - os: 'macos-13'
+          # TODO   python-version: "3.10"
+          # TODO   architecture: x64
+          # TODO - os: macos-latest
+          # TODO   python-version: "3.11"
+          # TODO   architecture: x64
           - os: macos-latest
             python-version: "3.12"
             architecture: x64
@@ -74,11 +74,11 @@ jobs:
         run: python -m build
 
       # skip tests for the time being
-      # - name: Run tests
-      #   run: |
-      #     pip install .
-      #     pip install scipy pytest pytest-cov
-      #     pytest
+      # TODO - name: Run tests
+      # TODO   run: |
+      # TODO     pip install .
+      # TODO     pip install scipy pytest pytest-cov
+      # TODO     pytest
 
   version-bump:
     name: Bump Version
