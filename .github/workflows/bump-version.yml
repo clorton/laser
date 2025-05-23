@@ -189,4 +189,7 @@ jobs:
         with:
           repository-url: https://test.pypi.org/legacy/
           password: ${{ secrets.PYPI_TEST_TOKEN }}
+          attestations: false
+          skip_existing: false
           packages_dir: final_dist
+          verbose: true
