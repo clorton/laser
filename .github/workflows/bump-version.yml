@@ -1,16 +1,16 @@
 name: Manual version bump and build
 
 on:
+    workflow_dispatch:
+      inputs:
+        version_type:
+          description: 'Type of version bump (major, minor, patch):'
+          required: true
+          default: 'patch'
   # push:
   #   branches:
   #     - main
   #     - bump-version
-  workflow_dispatch:
-    inputs:
-      version_type:
-        description: 'Type of version bump (major, minor, patch):'
-        required: true
-        default: 'patch'
 
 jobs:
   # approve:
